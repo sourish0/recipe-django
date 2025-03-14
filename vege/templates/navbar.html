@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navbar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <nav class="bg-blue-600 p-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <!-- Logo -->
+        <a href="/" class="text-white text-2xl font-bold">MyRecipes</a>
+
+        <!-- Links -->
+        <div class="hidden md:flex space-x-6">
+          <a href="/" class="text-white hover:underline">Home</a>
+          <a href="{% url 'recipe_list' %}" class="text-white hover:underline"
+            >Recipes</a
+          >
+          {% if user.is_authenticated %}
+          <a href="#" class="text-white hover:underline">Profile</a>
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="text-white hover:underline">
+              Logout
+            </button>
+          </form>
+          {% else %}
+          <a href="{% url 'login' %}" class="text-white hover:underline"
+            >Login</a
+          >
+          <a href="{% url 'signin' %}" class="text-white hover:underline"
+            >Sign Up</a
+          >
+          {% endif %}
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden text-white" onclick="toggleMenu()">☰</button>
+      </div>
+
+      <!-- Mobile Dropdown Menu -->
+      <div id="mobileMenu" class="hidden md:hidden bg-blue-700 p-4">
+        <a href="/" class="block text-white py-2">Home</a>
+        <a href="{% url 'recipe_list' %}" class="block text-white py-2"
+          >Recipes</a
+        >
+        {% if user.is_authenticated %}
+        <a href="#" class="block text-white py-2">Profile</a>
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="block text-white py-2">Logout</button>
+        </form>
+        {% else %}
+        <a href="{% url 'login' %}" class="block text-white py-2">Login</a>
+        <a href="{% url 'signin' %}" class="block text-white py-2">Sign Up</a>
+        {% endif %}
+      </div>
+    </nav>
+
+    <script>
+      function toggleMenu() {
+        document.getElementById("mobileMenu").classList.toggle("hidden");
+      }
+    </script>
+  </body>
+</html>
